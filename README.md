@@ -1,2 +1,3 @@
 # TensorFlow_KNN
-Building a Demo application using KNN algorithm in Tensorflow
+
+A Demo application using KNN algorithm in Tensorflow to predict travel time for city commuters.
