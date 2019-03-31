@@ -10,7 +10,7 @@ training_set_y = []
 
 # Preparing Training Data set 
 # Extracting each parameter into different list.
-with open("TRAIN_SET.csv","rb") as file:
+with open("TRAIN_SET.csv","r") as file:
 	reader = csv.reader(file)
 	for row in reader:
 		training_set.append([row[1],row[3],row[4],row[5]])
@@ -24,7 +24,7 @@ testing_set = []
 
 # Preparing Test data set
 # Extracting each parameter into different list.
-with open("TEST_SET.csv","rb") as file:
+with open("TEST_SET.csv","r") as file:
 	reader = csv.reader(file)
 	for row in reader:
 		testing_set.append([row[1],row[3],row[4],row[5]])
@@ -45,14 +45,14 @@ test_values     = tf.placeholder("float",[len(training_set[0])])
 
 
 # This is the distance formula to calculate the distance between the test values and the training values
-distance = tf.reduce_sum(tf.abs(tf.add(training_values,tf.neg(test_values))),reduction_indices=1) 	
+distance = tf.reduce_sum(tf.abs(tf.add(training_values,tf.negative(test_values))),reduction_indices=1) 	
 
 # Returns the index with the smallest value across dimensions of a tensor
-prediction = tf.arg_min(distance,0)
+prediction = tf.math.argmin(distance,0)
 
 
 # Initializing  the session
-init = tf.initialize_all_variables()
+init = tf.global_variables_initializer()
 
 # Starting the calculation process
 # For every test sample, the above "distance" formula will get called and the distance formula will return the 
@@ -65,5 +65,5 @@ with tf.Session() as sess:
 		# Tensor flow method to get the prediction nearer to the test parameters from the training set.
 		index_in_trainingset = sess.run(prediction,feed_dict={training_values:training_set,test_values:testing_set[i]})	
 
-		print "Test %d, and the prediction is %s"%(i,training_set_y[index_in_trainingset])
+		print ("Test %d, and the prediction is %s" % (i, training_set_y[index_in_trainingset]))
 
